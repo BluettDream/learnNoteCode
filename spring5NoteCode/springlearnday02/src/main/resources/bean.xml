@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="stu" class="org.learn.collectiontype.Stu">
+        <property name="courses">
+            <!--数组形式注入-->
+            <array>
+                <value>JAVA课程</value>
+                <value>数据库课程</value>
+            </array>
+        </property>
+        <property name="list">
+            <!--列表形式注入-->
+            <list>
+                <value>张三</value>
+                <value>李四</value>
+            </list>
+        </property>
+        <property name="maps">
+            <!--map形式注入-->
+            <map>
+                <entry key="JAVA" value="java"></entry>
+                <entry key="PHP" value="php"></entry>
+            </map>
+        </property>
+        <property name="sets">
+            <!--集合形式注入-->
+            <set>
+                <value>MySql</value>
+                <value>Redis</value>
+            </set>
+        </property>
+        <property name="courseList">
+            <!--注入List对象-->
+            <list>
+                <ref bean="couse1"></ref>
+                <ref bean="couse2"></ref>
+            </list>
+        </property>
+    </bean>
+    <bean id="couse1" class="org.learn.collectiontype.Course">
+        <property name="cname" value="spring框架5"></property>
+    </bean>
+    <bean id="couse2" class="org.learn.collectiontype.Course">
+        <property name="cname" value="框架"></property>
+    </bean>
+</beans>

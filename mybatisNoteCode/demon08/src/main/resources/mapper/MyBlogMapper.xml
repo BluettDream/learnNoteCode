@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.learn.demon.mapper.MyBlogMapper">
+    <sql id="if-text-title">
+        <if test="title != null">
+            title = #{title}
+        </if>
+        <if test="author != null">
+            and author = #{author}
+        </if>
+    </sql>
+    <select id="selectBlogJudge" resultType="myBlog" parameterType="map">
+        select * from mybatis.myblog
+        <where>
+            <include refid="if-text-title"></include>
+        </where>
+    </select>
+    <insert id="insertBlogByAll" parameterType="myBlog">
+        insert into mybatis.myblog(id, title, author, create_time, views)
+        values (#{id}, #{title}, #{author}, #{createTime}, #{views});
+    </insert>
+    <update id="updateBlogById" parameterType="map">
+        update mybatis.myblog
+            <set>
+                <if test="author != null">
+                    author = #{author},
+                </if>
+            </set>
+            <where>
+                id = #{id}
+            </where>
+    </update>
+    <select id="selectBlogById" resultType="myBlog" parameterType="map">
+        select * from mybatis.myblog
+            <where>
+                <foreach collection="names" item="author" open="and (" close=")" separator="or">
+                    author = #{author}
+                </foreach>
+            </where>
+    </select>
+
+</mapper>

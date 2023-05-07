@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="emp" class="org.learn.demon01.bean.Emp">
+        <property name="ename" value="empname"></property>
+        <property name="gender" value="nan"></property>
+        <property name="dept" ref="dept"></property>
+        <!--获取对象属性值需要设置get方法-->
+        <property name="dept.dname" value="dept"></property>
+    </bean>
+    <bean id="dept" class="org.learn.demon01.bean.Dept"></bean>
+</beans>

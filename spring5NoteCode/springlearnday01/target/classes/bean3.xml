@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="emp" class="org.learn.demon01.bean.Emp">
+        <property name="ename" value="empname"></property>
+        <property name="gender" value="nan"></property>
+        <property name="dept">
+            <!--内部bean创建对象-->
+            <bean id="dept" class="org.learn.demon01.bean.Dept">
+                <property name="dname" value="deptname"></property>
+            </bean>
+        </property>
+    </bean>
+</beans>
