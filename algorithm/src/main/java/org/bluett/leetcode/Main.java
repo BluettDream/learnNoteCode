@@ -22,22 +22,30 @@ public class Main {
     static StreamTokenizer ST = new StreamTokenizer(BR);
 
     public static void main(String[] args) throws Exception {
-
+        while (BR.ready()){
+            String line = BR.readLine();
+            String[] split = line.substring(1, line.length() - 1).split(",");
+            ListNode h = new ListNode(Integer.parseInt(split[0]));
+            ListNode p = h;
+            for (int i = 1; i < split.length; i++) {
+                p.next = new ListNode(Integer.parseInt(split[i]));
+                p = p.next;
+            }
+            new Main().reverseList(h);
+            PW.flush();
+        }
     }
 
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        ListNode p = headA, q = headB;
-        while (p != null){
-            q = headB;
-            while (q != null){
-                if(p == q) {
-                    return p;
-                }
-                q = q.next;
-            }
-            p = p.next;
+    public ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
-        return null;
+        return prev;
     }
 
     static int ri() throws Exception {
