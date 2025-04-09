@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--手动配置初始化和销毁bean-->
+    <bean id="orders" class="org.learn.collectiontype.bean.Orders" init-method="initMethod" destroy-method="destoryMethod">
+        <property name="oname" value="JAVA"></property>
+    </bean>
+    <!--后置处理器配置，任何bean实例都会自动调用（可不配置）-->
+    <bean id="myBeanPost" class="org.learn.collectiontype.bean.MyBeanPost"></bean>
+</beans>

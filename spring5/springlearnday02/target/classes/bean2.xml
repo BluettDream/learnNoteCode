@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+    <!--提取list集合类型属性注入-->
+    <util:list id="bookList">
+        <value>JAVA</value>
+        <value>C</value>
+        <value>JS</value>
+    </util:list>
+    <!--提取list集合类型属性使用-->
+    <bean id="book" class="org.learn.collectiontype.Book" scope="prototype">
+        <property name="list" ref="bookList"></property>
+    </bean>
+</beans>
