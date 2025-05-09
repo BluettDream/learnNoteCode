@@ -7,8 +7,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.PriorityQueue;
+import java.util.stream.Collectors;
 
 public class Main {
     static BufferedReader BR;
@@ -26,82 +30,45 @@ public class Main {
     static StreamTokenizer ST = new StreamTokenizer(BR);
 
     public static void main(String[] args) throws Exception {
-        int cap = ri();
-        LRUCache lruCache = new LRUCache(cap);
-        while (BR.ready()) {
-            int op = ri();
-            if(op == 0){
-                lruCache.put(ri(), ri());
-                PW.println("null");
-            }else if(op == 1){
-                int val = lruCache.get(ri());
-                PW.println(val);
+        while (BR.ready()){
+            int n = Integer.parseInt(BR.readLine());
+            ListNode[] listNodes = new ListNode[n];
+            for (int i = 0; i < n; i++) {
+                List<Integer> list = Arrays.stream(BR.readLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
+                ListNode head = new ListNode(list.get(0));
+                ListNode p = head;
+                for (int j = 1; j < list.size(); j++) {
+                    p.next = new ListNode(list.get(j));
+                    p = p.next;
+                }
+                listNodes[i] = head;
             }
+            ListNode listNode = new Main().mergeKLists(listNodes);
+            while (listNode != null){
+                PW.print(listNode.val + " ");
+                listNode = listNode.next;
+            }
+            PW.println();
         }
         PW.flush();
     }
 
-    static class LRUCache {
-        static class Node<K, V>{
-            K key;
-            V value;
-            Node<K, V> prev;
-            Node<K, V> next;
-            public Node(){}
-            public Node(K key, V value){this.key = key;this.value = value;}
-        }
-
-        Map<Integer, Node<Integer, Integer>> map;
-        Node<Integer, Integer> head, tail;
-        int size = 2;
-        int capacity = 0;
-
-        public LRUCache(int capacity) {
-            this.capacity = capacity;
-            this.map = new HashMap<>(capacity);
-            this.head = new Node<>();
-            this.tail = new Node<>();
-            this.head.next = this.tail;
-            this.tail.prev = this.head;
-        }
-
-        public int get(int key) {
-            if(!map.containsKey(key)) return -1;
-            Node<Integer, Integer> node = map.get(key);
-            // move to head
-            moveToHead(node);
-            // update map
-            map.put(key, node);
-            return node.value;
-        }
-
-        public void put(int key, int value) {
-            if(!map.containsKey(key)) ++size;
-            Node<Integer, Integer> node = map.getOrDefault(key, new Node<>());
-            node.key = key;
-            node.value = value;
-            moveToHead(node);
-            map.remove(key);
-            map.put(key, node);
-            if(size -  2 > capacity){
-                Node<Integer, Integer> tailNode = this.tail.prev;
-                map.remove(tailNode.key);
-                --size;
-                tailNode.next.prev = tailNode.prev;
-                tailNode.prev.next = tailNode.next;
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode head = new ListNode();
+        ListNode p = head;
+        p.next = null;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(lists.length, Comparator.comparingInt(ln -> ln.val));
+        pq.addAll(Arrays.stream(lists).filter(Objects::nonNull).collect(Collectors.toList()));
+        while (!pq.isEmpty()){
+            ListNode minNode = pq.poll();
+            p.next = minNode;
+            if(minNode.next != null){
+                pq.offer(minNode.next);
             }
+            p = p.next;
+            p.next = null;
         }
-
-        private void moveToHead(Node<Integer, Integer> node) {
-            if(node.prev != null && node.next != null){
-                node.prev.next = node.next;
-                node.next.prev = node.prev;
-            }
-            node.next = this.head.next;
-            this.head.next.prev = node;
-            node.prev = this.head;
-            this.head.next = node;
-        }
+        return head.next;
     }
 
     static int ri() throws Exception {
